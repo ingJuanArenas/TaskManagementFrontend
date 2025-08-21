@@ -1,0 +1,181 @@
+<div class="relative w-full min-h-screen bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-0 overflow-hidden">
+  <!-- Decorative background glows -->
+  <div class="pointer-events-none absolute -top-28 -left-28 w-[42rem] h-[42rem] rounded-full blur-3xl opacity-40 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.22),transparent_60%)]"></div>
+  <div class="pointer-events-none absolute -bottom-32 -right-24 w-[36rem] h-[36rem] rounded-full blur-3xl opacity-30 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.35),transparent_60%)]"></div>
+
+  <!-- Header -->
+  <div class="w-full text-center py-8">
+    <h1 class="font-extrabold text-5xl sm:text-6xl text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)] tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
+      {{ isEditMode() ? 'EDITAR TAREA' : 'CREAR NUEVA TAREA' }}
+    </h1>
+  </div>
+
+  <!-- Back Button -->
+  <div class="max-w-4xl mx-auto px-5 mb-6">
+    <button (click)="goBack()" class="flex items-center gap-2 px-7 py-3.5 bg-white/25 backdrop-blur-xl rounded-2xl border border-white/40 text-white font-semibold hover:bg-white/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 shadow-xl">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Volver
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="max-w-4xl mx-auto px-5 mb-8">
+      <div class="bg-white/40 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 p-10 text-center">
+        <div class="animate-spin rounded-full h-14 w-14 border-b-4 border-purple-600 mx-auto mb-5"></div>
+        <p class="text-gray-700 text-xl">{{ isEditMode() ? 'Cargando tarea...' : 'Preparando formulario...' }}</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error() && !loading()) {
+    <div class="max-w-4xl mx-auto px-5 mb-8">
+      <div class="bg-red-50/90 border border-red-200 rounded-3xl shadow-2xl p-10 text-center">
+        <svg class="w-12 h-12 text-red-500 mx-auto mb-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+        </svg>
+        <h3 class="text-2xl font-bold text-red-800 mb-2">Error</h3>
+        <p class="text-red-700 text-lg">{{ error() }}</p>
+      </div>
+    </div>
+  }
+
+  <!-- Form -->
+  @if (!loading() && !error()) {
+    <div class="max-w-4xl mx-auto px-5 mb-8">
+      <div class="relative bg-white/30 backdrop-blur-xl rounded-[2.2rem] shadow-[0_20px_50px_rgba(0,0,0,0.25)] border border-white/40 overflow-hidden">
+        
+        <!-- Form Header -->
+        <div class="relative bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 p-10 text-white">
+          <div class="pointer-events-none absolute inset-0 opacity-30" style="background: radial-gradient(1200px_300px at -10% 0%, rgba(255,255,255,0.5), transparent 60%);"></div>
+          <h2 class="text-3xl sm:text-4xl font-bold drop-shadow-md">
+            {{ isEditMode() ? 'Editar Tarea' : 'Nueva Tarea' }}
+          </h2>
+          <p class="text-purple-100 text-xl mt-2">
+            {{ isEditMode() ? 'Modifica los detalles de la tarea' : 'Completa la información de la nueva tarea' }}
+          </p>
+        </div>
+
+        <!-- Form Content -->
+        <form [formGroup]="taskForm" (ngSubmit)= "isEditMode() ? updateTask() : createTask()" class="p-10">
+          
+          <!-- Name Field -->
+          <div class="mb-8">
+            <label for="name" class="block text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+              </svg>
+              Nombre de la Tarea *
+            </label>
+            <input 
+              type="text" 
+              id="name"
+              formControlName="name"
+              class="w-full p-4 rounded-2xl border-2 border-purple-200 bg-white/80 backdrop-blur-sm shadow-lg focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-200 text-lg transition-all duration-300 placeholder-gray-500"
+              placeholder="Ingresa el nombre de la tarea"
+              [class.border-red-300]="taskForm.get('name')?.invalid && taskForm.get('name')?.touched"
+              [class.focus:border-red-500]="taskForm.get('name')?.invalid && taskForm.get('name')?.touched"
+            />
+          </div>
+
+          <!-- Description Field -->
+          <div class="mb-8">
+            <label for="description" class="block text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              Descripción *
+            </label>
+            <textarea 
+              id="description"
+              formControlName="description"
+              rows="4"
+              class="w-full p-4 rounded-2xl border-2 border-blue-200 bg-white/80 backdrop-blur-sm shadow-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-200 text-lg transition-all duration-300 placeholder-gray-500 resize-none"
+              placeholder="Describe detalladamente la tarea a realizar"
+              [class.border-red-300]="taskForm.get('description')?.invalid && taskForm.get('description')?.touched"
+              [class.focus:border-red-500]="taskForm.get('description')?.invalid && taskForm.get('description')?.touched"
+            ></textarea>
+        
+          </div>
+
+          <!-- Status and Deadline Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            
+            <!-- Status Field -->
+            <div>
+              <label for="status" class="block text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Estado *
+              </label>
+              <select 
+                id="status"
+                formControlName="status"
+                class="w-full p-4 rounded-2xl border-2 border-green-200 bg-white/80 backdrop-blur-sm shadow-lg focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-200 text-lg transition-all duration-300"
+                [class.border-red-300]="taskForm.get('status')?.invalid && taskForm.get('status')?.touched"
+                [class.focus:border-red-500]="taskForm.get('status')?.invalid && taskForm.get('status')?.touched"
+              >
+                <option value="">Selecciona un estado</option>
+                <option value="pending">Pendiente</option>
+                <option value="in-progress">En Progreso</option>
+                <option value="completed">Completada</option>
+              </select>
+    
+            </div>
+
+            <!-- Deadline Field -->
+            <div>
+              <label for="deadline" class="block text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Fecha Límite
+              </label>
+              <input 
+                type="date" 
+                id="deadline"
+                formControlName="deadline"
+                class="w-full p-4 rounded-2xl border-2 border-orange-200 bg-white/80 backdrop-blur-sm shadow-lg focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-200 text-lg transition-all duration-300"
+                [class.border-red-300]="taskForm.get('deadline')?.invalid && taskForm.get('deadline')?.touched"
+                [class.focus:border-red-500]="taskForm.get('deadline')?.invalid && taskForm.get('deadline')?.touched"
+              />
+        
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="border-t border-gray-200 pt-8">
+            <div class="flex flex-wrap gap-4 justify-end">
+              <button 
+                type="button"
+                (click)="goBack()"
+                class="px-7 py-3.5 bg-gray-500 text-white font-semibold rounded-2xl hover:bg-gray-600 transition-all duration-300 shadow-xl"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="submit"
+                [disabled]="taskForm.invalid || loading()"
+                class="px-7 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-xl"
+              >
+                @if (loading()) {
+                  <div class="flex items-center gap-2">
+                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    {{ isEditMode() ? 'Actualizando...' : 'Creando...' }}
+                  </div>
+                } @else {
+                  {{ isEditMode() ? 'Actualizar Tarea' : 'Crear Tarea' }}
+                }
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  }
+</div>

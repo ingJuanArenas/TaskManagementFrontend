@@ -1,0 +1,22 @@
+<div class="w-full min-h-screen bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 p-0">
+    <div class="w-full text-center py-12">
+      <h1 class="font-extrabold text-4xl sm:text-6xl text-white drop-shadow-2xl tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
+        ADMINISTRADOR DE TAREAS</h1>
+    </div>
+    <div class="max-w-2xl mx-auto px-5 mb-8">
+      <input type="text" name="userInput" placeholder="Buscar tareas..." [(ngModel)]="userInput"  class="w-full p-6 rounded-2xl border-2 border-purple-300 bg-white/90 backdrop-blur-sm shadow-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-200 text-lg transition-all duration-300 placeholder-gray-500" />
+    </div>
+    <div class="bg-white/90 backdrop-blur-sm rounded-3xl max-w-screen-xl mx-auto my-4 px-6 md:px-12 py-10 shadow-2xl border border-white/20">
+      <div class="font-bold font-sans text-gray-800 text-2xl mb-8 flex items-center">
+        <span class="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">TAREAS</span>
+        <div class="ml-3 w-8 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+      </div>
+      <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        @for (t of tasks(); track $index) {
+          <app-task-card
+           [task] = "t"
+            (showDetails)="showDetails($event)" (taskChanged)="loadingTasks()"></app-task-card>
+        }
+      </div>
+    </div>
+  </div>
