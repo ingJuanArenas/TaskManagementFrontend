@@ -1,1 +1,56 @@
-<p>loginpage works!</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 min-h-screen">
+
+<div class="flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-2xl bg-white bg-opacity-90 rounded-2xl shadow-2xl p-16 border-t-8 border-blue-500">
+    <div class="flex justify-center mb-8">
+      <svg class="w-16 h-16 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 018 0v2M9 17a4 4 0 01-8 0v-2a4 4 0 018 0v2zm0 0v2a4 4 0 008 0v-2a4 4 0 00-8 0z" />
+      </svg>
+    </div>
+    <h2 class="text-4xl font-extrabold mb-8 text-center text-blue-700 drop-shadow">Iniciar sesión</h2>
+    <form>
+      <div class="mb-8">
+        <label class="block text-gray-700 font-semibold mb-2" for="email">Correo electrónico</label>
+        <input
+          class="w-full px-4 py-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 bg-blue-50 transition"
+          type="email"
+          id="email"
+          name="email"
+          required
+        />
+      </div>
+      <div class="mb-10">
+        <label class="block text-gray-700 font-semibold mb-2" for="password">Contraseña</label>
+        <input
+          class="w-full px-4 py-3 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 bg-purple-50 transition"
+          type="password"
+          id="password"
+          name="password"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white py-4 rounded-xl font-bold shadow-lg hover:scale-105 hover:from-blue-600 hover:to-pink-600 transition-transform text-lg"
+      >
+        Entrar
+      </button>
+    </form>
+    <p class="mt-8 text-center text-gray-700 text-lg">
+      ¿No tienes cuenta?
+      <a href="#" class="text-pink-500 font-semibold hover:underline">Regístrate</a>
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
+
