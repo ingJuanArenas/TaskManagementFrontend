@@ -1,51 +1,54 @@
-<img src="https://img.icons8.com/fluent/48/000000/task.png" alt="Task Icon" width="30" height="30"> Task Manager - Frontend
-Este es el cliente web de una aplicación full-stack de gestión de tareas, construido con Angular <img src="https://img.icons8.com/color/48/000000/angularjs.png" alt="Angular Icon" width="24" height="24"> y diseñado con Tailwind CSS <img src="https://img.icons8.com/color/48/000000/tailwindcss.png" alt="Tailwind CSS Icon" width="24" height="24">. Permite a los usuarios registrarse, iniciar sesión y gestionar sus tareas de manera eficiente.
+Task Manager - Frontend
+Este es el cliente web para una aplicación full-stack de gestión de tareas. Construido con Angular y diseñado con Tailwind CSS, este frontend permite a los usuarios registrarse, iniciar sesión y gestionar sus tareas de manera eficiente.
 
-<img src="https://img.icons8.com/material-outlined/48/000000/key.png" alt="Key Icon" width="30" height="30"> Funcionalidades Clave
-<img src="https://img.icons8.com/material-outlined/24/000000/login-rounded-right.png" alt="Login Icon" width="20" height="20"> Autenticación de Usuarios: Sistema de inicio de sesión y registro para acceder a las tareas privadas.
+<img width="1081" height="848" alt="Captura de pantalla 2025-08-22 160811" src="https://github.com/user-attachments/assets/d605b385-a557-4648-ac56-e1eb40ff2ee2" />
+<img width="500" height="571" alt="Captura de pantalla 2025-08-22 160742" src="https://github.com/user-attachments/assets/36091579-7a88-4e2a-a7ec-2b586b204bb6" />
 
-<img src="https://img.icons8.com/material-outlined/24/000000/edit.png" alt="Edit Icon" width="20" height="20"> Gestión de Tareas (CRUD): Los usuarios pueden crear, ver, editar y eliminar sus propias tareas.
 
-<img src="https://img.icons8.com/material-outlined/24/000000/info.png" alt="Info Icon" width="20" height="20"> Detalles de Tarea: Una vista dedicada para ver la información completa de una tarea específica y sus acciones disponibles.
+Características Principales
+Autenticación de usuarios: Sistema de registro e inicio de sesión seguro para gestionar tareas privadas.
 
-<img src="https://img.icons8.com/material-outlined/24/000000/search.png" alt="Search Icon" width="20" height="20"> Filtro y Búsqueda: Funcionalidad para buscar tareas por palabra clave.
+Gestión de tareas (CRUD): Los usuarios pueden crear, ver, actualizar y eliminar sus propias tareas.
 
-<img src="https://img.icons8.com/material-outlined/24/000000/devices.png" alt="Devices Icon" width="20" height="20"> Interfaz Responsiva: Diseño moderno y adaptable que se ve bien en dispositivos móviles y de escritorio.
+Detalles de la tarea: Una vista dedicada para acceder a la información completa de una tarea específica.
 
-<img src="https://img.icons8.com/color/48/000000/technologies.png" alt="Technologies Icon" width="30" height="30"> Tecnologías Utilizadas
-Angular: <img src="https://img.icons8.com/color/48/000000/angularjs.png" alt="Angular Icon" width="24" height="24"> Framework para la construcción de la interfaz de usuario.
+Filtro y búsqueda: Funcionalidad para buscar tareas por palabra clave.
 
-Tailwind CSS: <img src="https://img.icons8.com/color/48/000000/tailwindcss.png" alt="Tailwind CSS Icon" width="24" height="24"> Framework de CSS utilitario para un diseño rápido y personalizado.
+Diseño responsivo: La interfaz se adapta perfectamente a dispositivos móviles y de escritorio.
 
-TypeScript: <img src="https://img.icons8.com/color/48/000000/typescript.png" alt="TypeScript Icon" width="24" height="24"> Lenguaje principal de desarrollo.
+Tecnologías Utilizadas
+Angular: Framework principal para la construcción de la interfaz de usuario.
 
-RxJS: <img src="https://img.icons8.com/color/48/000000/rxjs.png" alt="RxJS Icon" width="24" height="24"> Para la gestión de flujos de datos asíncronos (utilizado en el HttpClient para comunicarse con la API).
+Tailwind CSS: Framework de CSS utilitario que permite un diseño rápido y personalizable.
 
-<img src="https://img.icons8.com/material-outlined/48/000000/installation.png" alt="Installation Icon" width="30" height="30"> Instalación y Ejecución
-Para ejecutar este proyecto de forma local, sigue los siguientes pasos:
+TypeScript: Lenguaje principal de desarrollo, ofreciendo tipado estático para mayor robustez.
 
-1. Clona el repositorio:
+RxJS: Librería para la gestión de flujos de datos asíncronos, utilizada para la comunicación con la API.
 
-<img src="https://img.icons8.com/material-outlined/24/000000/github.png" alt="GitHub Icon" width="20" height="20">
-git clone &lt;URL_del_repositorio_frontend&gt;
+<img width="760" height="838" alt="Captura de pantalla 2025-08-22 160841" src="https://github.com/user-attachments/assets/4f5705d6-39db-4bfa-83c7-55bff8125d0a" />
+<img width="719" height="711" alt="Captura de pantalla 2025-08-22 160828" src="https://github.com/user-attachments/assets/749a244a-d365-4d62-a69d-180591671ec9" />
 
-2. Instala las dependencias:
 
-Navega hasta el directorio del proyecto y ejecuta el siguiente comando:
+Instalación y Ejecución
+Sigue estos pasos para configurar y ejecutar el proyecto localmente.
 
-<img src="https://img.icons8.com/color/48/000000/npm.png" alt="NPM Icon" width="20" height="20">
+Clonar el repositorio:
+
+Bash
+
+git clone <URL_del_repositorio_frontend>
+Instalar dependencias:
+Navega al directorio del proyecto y ejecuta el siguiente comando:
+
+Bash
+
 npm install
+Configurar la API del Backend:
+Modifica la URL del servicio donde se gestiona la conexión para apuntar a la dirección de tu servidor backend.![Uploading Captura de pantalla 2025-08-22 160828.png…]()
+Bash
 
-3. Configura la URL del Backend:
-
-Debes apuntar la aplicación a la URL donde se esté ejecutando tu backend. Abre el servicio donde gestionas la apiUrl y modifica la URL a la de tu servidor backend.
-
-4. Ejecuta la aplicación:
-
-<img src="https://img.icons8.com/color/48/000000/angularjs.png" alt="Angular CLI Icon" width="20" height="20">
 ng serve
-
 La aplicación estará disponible en http://localhost:4200/.
 
-<img src="https://img.icons8.com/material-outlined/48/000000/image.png" alt="Screenshots Icon" width="30" height="30"> Capturas de Pantalla
-Puedes añadir aquí las capturas de pantalla que me enviaste para mostrar el login, el panel de tareas y la vista de detalles.
+
+
