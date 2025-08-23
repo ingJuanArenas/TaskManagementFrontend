@@ -16,8 +16,8 @@ export class TasksForm implements OnInit {
   error = signal<string | undefined>(undefined);
   loading = signal<boolean>(true);
 
-  // Status options for the dropdown
-  statusOptions = ['pending', 'in-progress', 'completed'];
+  // Status options solo para edición
+  statusOptions = ['pending', 'in_course', 'completed'];
 
   taskForm = new FormGroup({
     id: new FormControl<number | null>(null, [Validators.min(0)]),
@@ -31,8 +31,8 @@ export class TasksForm implements OnInit {
       Validators.minLength(10), 
       Validators.maxLength(500)
     ]),
-    status: new FormControl<'pending' | 'in-progress' | 'completed'>('pending', [
-      Validators.required,
+    // status solo se usa en edición, en creación se asigna por defecto
+    status: new FormControl<'pending' | 'in_course' | 'completed'>('pending', [
       this.statusValidator
     ]),
     deadline: new FormControl<Date | null>(null, [
@@ -42,24 +42,24 @@ export class TasksForm implements OnInit {
 
   constructor(private router: Router, private service: TaskService) {
     effect(() => {
-          if (this.taskId()) {
-            this.isEditMode.set(true);
-            this.loading.set(true);
-            this.error.set(undefined);
+      if (this.taskId()) {
+        this.isEditMode.set(true);
+        this.loading.set(true);
+        this.error.set(undefined);
 
-            const id = this.taskId() ?? 0;
+        const id = this.taskId() ?? 0;
 
-            this.service.getTaskById(id).subscribe({
-              next: (data)=>{
-                this.taskForm.patchValue(data);
-                this.loading.set(false)
-              },error: (err) => { this.error.set(err); this.loading.set(false)}
-
-            })
-          }else{
-            this.isEditMode.set(false);
-            this.loading.set(false)
-          }
+        this.service.getTaskById(id).subscribe({
+          next: (data) => {
+            this.taskForm.patchValue(data);
+            this.loading.set(false);
+          },
+          error: (err) => { this.error.set(err); this.loading.set(false); }
+        });
+      } else {
+        this.isEditMode.set(false);
+        this.loading.set(false);
+      }
     });
   }
 
@@ -75,7 +75,7 @@ export class TasksForm implements OnInit {
     const value = control.value;
     if (!value) return null;
     
-    const validStatuses = ['pending', 'in-progress', 'completed'];
+    const validStatuses = ['PENDING', 'IN_COURSE', 'COMPLETED'];
     if (!validStatuses.includes(value)) {
       return { invalidStatus: true };
     }
@@ -109,7 +109,14 @@ export class TasksForm implements OnInit {
 
 
    createTask() {
-    const task = this.taskForm.value as Task;
+    // Al crear, status siempre será 'pending'
+    const { name, description, deadline } = this.taskForm.value;
+    const task: Task = {
+      name: name!,
+      description: description!,
+      status: 'pending',
+      deadline: deadline ?? null
+    } as Task;
     this.loading.set(true);
     this.service.createTask(task).subscribe({
       next: (task) => {
@@ -124,10 +131,10 @@ export class TasksForm implements OnInit {
   }
 
    updateTask() {
-    const task = this.taskForm.value as Task;
+    const status = this.taskForm.get('status')?.value;
     const id = this.taskId()!;
     this.loading.set(true);
-    this.service.updateTask(id, task).subscribe({
+    this.service.updateTaskStatus(id, status!).subscribe({
       next: (task) => {
         alert('Tarea actualizada exitosamente!');
         this.goBack();

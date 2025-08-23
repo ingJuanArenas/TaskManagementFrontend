@@ -3,6 +3,7 @@ import { Task } from '../../model/task';
 import { TaskService } from '../../service/task-service';
 import { Router, RouterLink } from '@angular/router';
 import { DatePipe, NgIf } from '@angular/common';
+import { AuthService, AuthUser } from '../../service/auth-service';
 
 
 @Component({
@@ -15,8 +16,11 @@ export class DetailsPage {
     loading = signal<boolean>(true);
     error = signal<string | null>(null);
     taskDetails = signal<Task | null>(null);
+    user: AuthUser| null = null;
 
-    constructor(private service: TaskService, private router: Router){
+    constructor(private service: TaskService, 
+      private authService: AuthService,
+      private router: Router){
       effect(()=>{
       const currentTaskId = this.taskId();
       if (currentTaskId == null) {
@@ -31,6 +35,8 @@ export class DetailsPage {
       this.loading.set(true);
       this.getTaskDetails(currentTaskId);
     });
+
+     this.authService.user$.subscribe(u => this.user = u);
 
     }
 
@@ -75,6 +81,15 @@ export class DetailsPage {
           alert('Error al eliminar la tarea');
           console.error('Error al eliminar la tarea:', error);
         }
+      })
+    }
+
+    updateTaskStatusInCourse(id: number, status="IN_COURSE"){
+      this.service.updateTaskStatus(id,status).subscribe({
+        next: (data)=>{
+            alert("Tarea actualizada exitosamente!")
+            this.goBack()
+        }, error: (error)=> { this.error.set(error.message);}
       })
     }
 }

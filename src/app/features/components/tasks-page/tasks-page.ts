@@ -4,11 +4,13 @@ import { TaskService } from "../../service/task-service";
 import { TaskCard } from "../task-card/task-card";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { AuthService, AuthUser } from '../../service/auth-service';
+
 
 @Component({
     selector: 'app-tasks-page',
-    imports: [TaskCard, FormsModule, CommonModule],
+    imports: [TaskCard, FormsModule, CommonModule, RouterLink],
     templateUrl: './tasks-page.html',
 })
 
@@ -17,24 +19,28 @@ export class TaskPage implements OnInit {
     loading = signal<boolean>(true);
     error = signal<string | null>(null);
     allTasks = signal<Task[]>([]);
-    tasks= signal<Task[]>([]);
+    tasks = signal<Task[]>([]);
+    userInput = signal<string>('');
+    user: AuthUser | null = null;
 
-    userInput= signal<string>('');
-
-    constructor(private taskService: TaskService, private router: Router) {
+    constructor(
+        private taskService: TaskService,
+        private router: Router,
+        private authService: AuthService
+    ) {
         effect(() => {
             this.tasks.set(this.allTasks().filter(
-                (t)=> t.name.toLowerCase().includes(this.userInput().toLowerCase())
-            ))
-                
+                (t) => t.name.toLowerCase().includes(this.userInput().toLowerCase())
+            ));
         });
+        this.authService.user$.subscribe(u => this.user = u);
     }
 
-    ngOnInit(){
+    ngOnInit(): void {
         this.loadingTasks();
     }
 
-    loadingTasks(){
+    loadingTasks() {
         this.taskService.getAllTasks().subscribe({
             next: (tasks) => {
                 this.allTasks.set(tasks);
@@ -47,7 +53,11 @@ export class TaskPage implements OnInit {
         });
     }
 
-    showDetails(id: number) {                
-        this.router.navigate(['tasks',id])
+    goToForm() {
+        this.router.navigate(['/tasks', 'new']);
+    }
+
+    showDetails(id: number) {
+        this.router.navigate(['tasks', id]);
     }
 }
