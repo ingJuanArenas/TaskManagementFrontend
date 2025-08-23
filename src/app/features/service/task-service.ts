@@ -33,10 +33,6 @@ export class TaskService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.authService.getAuthHeaders() });
   }
 
-  getTasksByStatus(status: string): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.baseUrl}/status/${status}`, { headers: this.authService.getAuthHeaders() });
-  }
-
   updateTaskStatus(id: number, status: string): Observable<Task> {
     return this.http.put<Task>(`${this.baseUrl}/${id}/status/${status}`,{} ,{ headers: this.authService.getAuthHeaders() });
   }

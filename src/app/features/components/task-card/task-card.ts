@@ -1,5 +1,5 @@
 
-import { Component, input, output, signal, Signal } from "@angular/core";
+import { Component, input, output, signal } from "@angular/core";
 import { Task } from "../../model/task";
 import { DatePipe } from "@angular/common";
 import { TaskService } from "../../service/task-service";

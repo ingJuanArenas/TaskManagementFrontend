@@ -4,13 +4,13 @@ import { TaskService } from "../../service/task-service";
 import { TaskCard } from "../task-card/task-card";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { AuthService, AuthUser } from '../../service/auth-service';
 
 
 @Component({
     selector: 'app-tasks-page',
-    imports: [TaskCard, FormsModule, CommonModule, RouterLink],
+    imports: [TaskCard, FormsModule, CommonModule],
     templateUrl: './tasks-page.html',
 })
 
