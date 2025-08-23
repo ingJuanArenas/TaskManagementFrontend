@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/features/components/task-card/task-card.ts"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]
